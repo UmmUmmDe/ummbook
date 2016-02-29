@@ -1,0 +1,10 @@
+.ummbook {
+	width: 800px;
+	height: 600px;
+}
+
+.ummbook-choice {
+	text-decoration: underline;
+	cursor: pointer;
+	color: blue;
+}
