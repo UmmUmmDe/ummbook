@@ -30,7 +30,7 @@ var ub = {};
 	ub.loadScene = function(name) {
 		var scene = ub.game.scenes[name];
 		var text = markdown.toHTML(scene.text);
-		ub.processText(text);
+		text = ub.processText(text);
 		ub.div.html(text);
 		if (scene.choices) {
 			for (var i = 0; i < scene.choices.length; i++) {
@@ -52,7 +52,32 @@ var ub = {};
 	};
 
 	ub.processText = function(text) {
-		//TODO: Add stuff here.
+		var going = true;
+		while (going) {
+			var linkStart = text.indexOf("[[");
+			var linkEnd = text.indexOf("]]");
+			if (linkStart !== -1 && linkEnd !== -1 && linkEnd > linkStart) {
+				var originalText = text.substring(linkStart, linkEnd+2);
+				var linkText = text.substring(linkStart+2, linkEnd);
+				var urlPosition = linkText.indexOf("|");
+				urlPosition = urlPosition !== -1 ? urlPosition : 0;
+				var v = urlPosition === 0 ? 0 : 1;
+				var url = linkText.substring(urlPosition+v);
+				if (urlPosition !== 0) {
+					linkText = linkText.substring(0, urlPosition);
+				} else {
+					linkText = url;
+				}
+				var external = url.indexOf("http") === 0;
+				if (external) {
+					text = text.replace(originalText, "<a target='_blank' href='" + url + "'>" + linkText + "</a>");
+				} else {
+					text = text.replace(originalText, "<span class='ummbook-choice' onclick='ub.loadScene(\"" + url + "\")'>" + linkText + "</span>");
+				}
+			}
+			going = false;
+		}
+		return text;
 	};
 })();
 
