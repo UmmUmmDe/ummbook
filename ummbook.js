@@ -11,6 +11,10 @@ var ub = {};
 		$(document).on("keypress", function(e) {
 			var code = e.which;
 			var n = code - 48;
+			if (ub.scene.choices.length == 1) {
+				ub.loadScene(ub.scene.choices[0].scene);
+				return;
+			}
 			if (n >= 0 && n < 10) {
 				var choice = n - 1;
 				if (choice === -1) {
@@ -40,7 +44,11 @@ var ub = {};
 		if (scene.choices) {
 			for (i = 0; i < scene.choices.length; i++) {
 				var c = scene.choices[i];
-				text.push("[[" + (i+1) + ") " + c.text + "|" + c.scene + "]]");
+				var temp = (i + 1) + ") ";
+				if (scene.choices.length == 1) {
+					temp = "";
+				}
+				text.push("[[" + temp + c.text + "|" + c.scene + "]]");
 			}
 		}
 		var tempText = "";
