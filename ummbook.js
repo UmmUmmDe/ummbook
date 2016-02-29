@@ -1,6 +1,7 @@
 var ub = {};
 
 (function() {
+	"use strict";
 	ub.start = function() {
 		ub.div = $(".ummbook");
 		$.get({
@@ -29,36 +30,39 @@ var ub = {};
 
 	ub.loadScene = function(name) {
 		var scene = ub.game.scenes[name];
-		var text = markdown.toHTML(scene.text);
-		text = ub.processText(text);
-		ub.div.html(text);
+		var text = scene.text;
+		var i;
+		if (typeof(text) === "string") {
+			text = [text];
+		} else {
+			text = text.slice();
+		}
 		if (scene.choices) {
-			for (var i = 0; i < scene.choices.length; i++) {
+			for (i = 0; i < scene.choices.length; i++) {
 				var c = scene.choices[i];
-				var choice = document.createElement("p");
-				var choiceText = document.createTextNode((i + 1) + ") " + c.text);
-				choice.onclick = function(e) {
-					var ele = e.toElement;
-					var scene = ele.getAttribute("data-choice");
-					ub.loadScene(scene);
-				};
-				choice.appendChild(choiceText);
-				choice.setAttribute("data-choice", c.scene);
-				choice.className = "ummbook-choice";
-				ub.div[0].appendChild(choice);
+				text.push("[[" + (i+1) + ") " + c.text + "|" + c.scene + "]]");
 			}
 		}
+		var tempText = "";
+		for (i = 0; i < text.length; i++) {
+			tempText += text[i] + "\n\n";
+		}
+		text = tempText;
+		text = markdown.toHTML(text);
+		text = ub.processText(text);
+		ub.div.html(text);
 		ub.scene = scene;
 	};
 
 	ub.processText = function(text) {
 		var going = true;
+		var workingText = text;
 		while (going) {
-			var linkStart = text.indexOf("[[");
-			var linkEnd = text.indexOf("]]");
+			var linkStart = workingText.indexOf("[[");
+			var linkEnd = workingText.indexOf("]]");
 			if (linkStart !== -1 && linkEnd !== -1 && linkEnd > linkStart) {
-				var originalText = text.substring(linkStart, linkEnd+2);
-				var linkText = text.substring(linkStart+2, linkEnd);
+				var originalText = workingText.substring(linkStart, linkEnd+2);
+				var linkText = workingText.substring(linkStart+2, linkEnd);
 				var urlPosition = linkText.indexOf("|");
 				urlPosition = urlPosition !== -1 ? urlPosition : 0;
 				var v = urlPosition === 0 ? 0 : 1;
@@ -74,8 +78,10 @@ var ub = {};
 				} else {
 					text = text.replace(originalText, "<span class='ummbook-choice' onclick='ub.loadScene(\"" + url + "\")'>" + linkText + "</span>");
 				}
+				workingText = workingText.substring(linkEnd+2);
+			} else {
+				going = false;
 			}
-			going = false;
 		}
 		return text;
 	};
