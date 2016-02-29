@@ -25,3 +25,16 @@ Example:
     "startScene": "start"
 }
 ```
+
+Choices provide the ability to use keyboard controls to select items. You can
+have at most 10 choices (after 10 is undefined). As an alternative to choices,
+you can use inline links.
+
+```json
+...
+"text": "This is the first scene! [[Go back|start]]"
+...
+```
+
+In this particular case, a choice would be better, as the player can use
+keyboard controls.
