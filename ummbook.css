@@ -2,6 +2,9 @@
 	width: 800px;
 	height: 600px;
 	font-family: sans-serif;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	word-wrap: break-word;
 }
 
 .ummbook-choice {
