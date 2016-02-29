@@ -58,6 +58,9 @@ var ub = {};
 		text = tempText;
 		text = markdown.toHTML(text);
 		text = ub.processText(text);
+		if (ub.game.clear === false) {
+			text = ub.div.html() + text;
+		}
 		ub.div.html(text);
 		ub.scene = scene;
 	};
