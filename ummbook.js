@@ -7,6 +7,19 @@ var ub = {};
 			url: "game.json",
 			success: ub.load
 		});
+		$(document).on("keypress", function(e) {
+			var code = e.which;
+			var n = code - 48;
+			if (n >= 0 && n < 10) {
+				var choice = n - 1;
+				if (choice === -1) {
+					choice = 9;
+				}
+				if (ub.scene.choices.length > choice) {
+					ub.loadScene(ub.scene.choices[choice].scene);
+				}
+			}
+		});
 	};
 
 	ub.load = function(data) {
@@ -23,7 +36,7 @@ var ub = {};
 			for (var i = 0; i < scene.choices.length; i++) {
 				var c = scene.choices[i];
 				var choice = document.createElement("p");
-				var choiceText = document.createTextNode(i + ") " + c.text);
+				var choiceText = document.createTextNode((i + 1) + ") " + c.text);
 				choice.onclick = function(e) {
 					var ele = e.toElement;
 					var scene = ele.getAttribute("data-choice");
@@ -35,6 +48,7 @@ var ub = {};
 				ub.div[0].appendChild(choice);
 			}
 		}
+		ub.scene = scene;
 	};
 
 	ub.processText = function(text) {
