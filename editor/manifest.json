@@ -1,0 +1,17 @@
+{
+	"name": "Ummbook Editor",
+	"description": "The official editor for Ummbook.",
+	"version": "0.1",
+	"manifest_version": 2,
+	"app": {
+		"background": {
+			"scripts": [
+				"background.js"
+			]
+		}
+	},
+	"permissions": [
+		"storage",
+		"unlimitedStorage"
+	]
+}
