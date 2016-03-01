@@ -38,3 +38,38 @@ you can use inline links.
 
 In this particular case, a choice would be better, as the player can use
 keyboard controls.
+
+A link can also be like this (without link text):
+
+```json
+...
+"text": "[[https://google.com]]"
+...
+```
+
+There are also commands that can be used in text:
+
+Clears the text if clearing is disabled:
+
+```json
+...
+"text": "{{clear}}"
+...
+```
+
+Prevents clearing if clearing is enabled (do not use yet, it's quite buggy):
+
+```json
+...
+"text": "{{stopclear}}"
+...
+```
+
+## JSON Settings
+
+```scenes``` is an array of scenes. Required.
+
+```startScene``` holds the name of the first scene. Required.
+
+```clear``` is a boolean that determines if clearing is enabled. Defaults to
+true.
