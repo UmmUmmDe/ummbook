@@ -98,6 +98,8 @@ var ub = {};
 				var commandText = workingText.substring(commandStart+2, commandEnd);
 				if (commandText === "clear") {
 					ub.div.html("");
+				} else if (commandText === "stopclear") {
+					text = ub.div.html() + text;
 				}
 				workingText = workingText.substring(commandEnd+2);
 				text = text.replace(originalText, "");
