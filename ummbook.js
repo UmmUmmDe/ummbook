@@ -71,8 +71,11 @@ var ub = {};
 		while (going) {
 			var linkStart = workingText.indexOf("[[");
 			var linkEnd = workingText.indexOf("]]");
+			var commandStart = workingText.indexOf("{{");
+			var commandEnd = workingText.indexOf("}}");
+			var originalText;
 			if (linkStart !== -1 && linkEnd !== -1 && linkEnd > linkStart) {
-				var originalText = workingText.substring(linkStart, linkEnd+2);
+				originalText = workingText.substring(linkStart, linkEnd+2);
 				var linkText = workingText.substring(linkStart+2, linkEnd);
 				var urlPosition = linkText.indexOf("|");
 				urlPosition = urlPosition !== -1 ? urlPosition : 0;
@@ -90,6 +93,14 @@ var ub = {};
 					text = text.replace(originalText, "<span class='ummbook-choice' onclick='ub.loadScene(\"" + url + "\")'>" + linkText + "</span>");
 				}
 				workingText = workingText.substring(linkEnd+2);
+			} else if (commandStart !== -1 && commandEnd !== -1 && commandEnd > commandStart) {
+				originalText = workingText.substring(commandStart, commandEnd+2);
+				var commandText = workingText.substring(commandStart+2, commandEnd);
+				if (commandText === "clear") {
+					ub.div.html("");
+				}
+				workingText = workingText.substring(commandEnd+2);
+				text = text.replace(originalText, "");
 			} else {
 				going = false;
 			}
