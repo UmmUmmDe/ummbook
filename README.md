@@ -4,6 +4,10 @@
 
 Ummbook is an engine for creating interactive gamebooks.
 
+## Editor
+
+Please use the editor: https://github.com/UmmUmmDe/ummbook-editor
+
 ## Usage
 
 To use Ummbook, create a JSON file named ```game.json``` in the root directory.
