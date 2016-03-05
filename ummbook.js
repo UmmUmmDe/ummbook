@@ -29,7 +29,7 @@ var ub = {};
 
 	ub.load = function(data) {
 		ub.game = data;
-		ub.loadScene(ub.game.startScene);
+		ub.loadScene(ub.game.startScene || "start");
 	};
 
 	ub.loadScene = function(name) {
